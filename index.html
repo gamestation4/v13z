@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mustafa PS4 PS5 - Exploit Host</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 class="main-title">
+            <span class="highlight">Mustafa</span>
+            <span class="ps4-text">PS4</span>
+            <span class="ps5-text">PS5</span>
+        </h1>
+        <div class="subtitle">Exploit Host</div>
+        <div class="version-badge">JB v3.0</div>
+    </header>
+    
+    <hr class="separator">
+
+    <div id="menu">
+        <h2 class="fw-title">Firmware Detection</h2>
+        <p class="fw-range">Detecting <span class="range-highlight">PlayStation 4</span></p>
+        
+        <div class="status-bar">
+            <span id="msgs" class="status-text loading">⏳ Starting...</span>
+        </div>
+
+        <!-- عداد الكاش -->
+        <div id="cache-progress" style="margin-top: 15px; display: none;">
+            <span id="cache-text" style="font-size: 13px; color: #8899bb;">📦 Checking cache...</span>
+            <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-top: 8px;">
+                <div id="cache-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff6b35, #ff2e63); border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+            <div id="cache-timer" style="font-size: 11px; color: #556688; margin-top: 8px;"></div>
+        </div>
+
+        <footer>
+            <p class="credit">Designed by <a href="#" class="credit-link">Mustafa</a></p>
+            <p class="thanks">❤️ Special thanks to all scene developers</p>
+        </footer>
+    </div>
+</div>
+
+<script>
+    var msgs = document.getElementById('msgs');
+    var cacheProgress = document.getElementById('cache-progress');
+    var cacheText = document.getElementById('cache-text');
+    var cacheBar = document.getElementById('cache-bar');
+    var cacheTimer = document.getElementById('cache-timer');
+
+    function updateStatus(msg) {
+        msgs.innerHTML = msg;
+    }
+
+    // التحقق من الجهاز والإصدار
+    var uaFull = navigator.userAgent;
+    var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
+    var isPS4 = match !== null;
+    var fwVersion = isPS4 ? match[1] : "Unknown";
+    var fwNum = parseFloat(fwVersion);
+    var key = null;
+    var bug = null;
+
+    if (match) {
+        var minor = parseInt(match[2], 16);
+        var ms = minor.toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = match[1] + "." + ms;
+        fwNum = parseInt(match[1], 10) * 100 + parseInt(ms, 10);
+    }
+
+    if (isPS4) {
+        if (fwNum <= 1202) {
+            bug = "lapse";
+        } else if (fwNum >= 1250) {
+            bug = "poops";
+        }
+    }
+
+    // دالة الكاش مع التوقيت
+    function startCache() {
+        cacheProgress.style.display = 'block';
+        
+        var urls = [
+            './index.html',
+            './run_lapse.html',
+            './run_poops.html',
+            './style.css',
+            './chain_lapse.js',
+            './chain_poops.js',
+            './core.js',
+            './mem.js',
+            './int64.js',
+            './ps4_offsets.js',
+            './rpc_worker.js'
+        ];
+
+        var loaded = 0;
+        var startTime = Date.now();
+        
+        urls.forEach(function(url, index) {
+            fetch(url, { cache: 'no-store' })
+                .then(function(response) {
+                    if (response.ok) {
+                        loaded++;
+                        var percent = Math.round((loaded / urls.length) * 100);
+                        cacheBar.style.width = percent + '%';
+                        cacheText.innerHTML = '📦 Caching ' + percent + '% (' + loaded + '/' + urls.length + ')';
+                        
+                        // حساب الوقت المنقضي
+                        var elapsed = Math.floor((Date.now() - startTime) / 1000);
+                        var minutes = Math.floor(elapsed / 60);
+                        var seconds = elapsed % 60;
+                        cacheTimer.innerHTML = '⏱️ Time: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                        
+                        // إظهار وقت كل ملف
+                        setTimeout(function() {
+                            cacheText.innerHTML += '<br>✅ ' + url.split('/').pop();
+                        }, 100 * (index + 1));
+                        
+                        if (loaded === urls.length) {
+                            var totalTime = Date.now() - startTime;
+                            var totalSeconds = Math.floor(totalTime / 1000);
+                            var totalMinutes = Math.floor(totalSeconds / 60);
+                            var remainingSeconds = totalSeconds % 60;
+                            
+                            cacheText.innerHTML = '<br>✅ Cache complete in ' + totalMinutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
+                            cacheBar.style.width = '100%';
+                            cacheTimer.innerHTML = '⏱️ Total Time: ' + totalMinutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
+                            
+                            setTimeout(function() {
+                                updateStatus('🚀 Loading exploit...');
+                                if (bug === "lapse") {
+                                    window.location.replace('run_lapse.html?bug=lapse');
+                                } else if (bug === "poops") {
+                                    window.location.replace('run_poops.html?bug=poops');
+                                }
+                            }, 1500);
+                        }
+                    }
+                })
+                .catch(function(error) {
+                    console.log('Cache failed for:', url, error);
+                    loaded++;
+                    var percent = Math.round((loaded / urls.length) * 100);
+                    cacheBar.style.width = percent + '%';
+                    cacheText.innerHTML = '⚠️ Failed: ' + url.split('/').pop();
+                });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        if (!isPS4) {
+            updateStatus('⚠️ This page is for PS4 only!');
+            msgs.className = 'status-text error';
+            return;
+        }
+
+        if (bug === "lapse" || bug === "poops") {
+            updateStatus('✅ Detected PS4 Firmware: ' + fwVersion);
+            
+            // بدء الكاش
+            setTimeout(function() {
+                startCache();
+            }, 1000);
+        } else {
+            updateStatus('❌ Unsupported Firmware: ' + fwVersion);
+            msgs.className = 'status-text error';
+        }
+    });
+</script>
+</body>
+</html>
