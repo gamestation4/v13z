@@ -44,9 +44,7 @@
     box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 60px rgba(0, 100, 255, 0.1);
   }
   
-  header {
-    margin-bottom: 20px;
-  }
+  header { margin-bottom: 20px; }
   
   .main-title {
     font-family: 'Orbitron', sans-serif;
@@ -135,11 +133,52 @@
   #cache {
     font-size: 13px;
     color: #5c6672;
-    margin: 0 0 10px;
-    min-height: 14px;
+    margin: 10px 0;
+    min-height: 20px;
     transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
   }
-  #cache.cacheok { color: #7fd0a0; }
+  
+  #cache.cacheok { 
+    color: #7fd0a0; 
+    border: 1px solid rgba(127,208,160,0.2);
+    background: rgba(127,208,160,0.05);
+  }
+  
+  #cache.cacheloading { 
+    color: #d8c07f; 
+    border: 1px solid rgba(216,192,127,0.2);
+    background: rgba(216,192,127,0.05);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  
+  #cache.cacheerror { 
+    color: #d08a7f; 
+    border: 1px solid rgba(208,138,127,0.2);
+    background: rgba(208,138,127,0.05);
+  }
+  
+  .cache-number {
+    display: inline-block;
+    background: rgba(255,255,255,0.05);
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: #8899bb;
+    margin: 5px 3px;
+  }
+  
+  .cache-hash {
+    display: inline-block;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    color: #445566;
+    margin: 3px;
+    word-break: break-all;
+  }
   
   .ok { color:#7fd0a0; }
   .bad { color:#d08a7f; }
@@ -187,6 +226,7 @@
     .main-title { font-size: 28px; }
     .subtitle { font-size: 11px; letter-spacing: 5px; }
     #state { font-size: 15px; }
+    .cache-hash { font-size: 8px; }
   }
   
   @media (max-width: 400px) {
@@ -213,7 +253,13 @@
   <div id="wrap">
     <div id="state">detecting firmware...</div>
     <div id="det"></div>
-    <div id="cache"></div>
+    <div id="cache">
+      <div id="cache-status">⏳ checking cache...</div>
+      <div style="margin-top:5px;">
+        <span class="cache-number" id="cache-version">📦 v1.0.0</span>
+        <span class="cache-hash" id="cache-hash">🔑 0aca91b3</span>
+      </div>
+    </div>
   </div>
   
   <hr class="separator">
@@ -225,12 +271,32 @@
 </div>
 
 <script>
+// ===== السكربت الأصلي مع إضافة رقم الكاش =====
 (function () {
     var stateEl = document.getElementById("state");
     var detEl = document.getElementById("det");
     var cacheEl = document.getElementById("cache");
-    function setState(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
-    function setCache(t, ok) { cacheEl.textContent = t; cacheEl.className = ok ? "cacheok" : ""; }
+    var cacheStatus = document.getElementById("cache-status");
+    var cacheVersion = document.getElementById("cache-version");
+    var cacheHash = document.getElementById("cache-hash");
+    
+    // معلومات الكاش من ملف cache.appcache
+    var CACHE_VERSION = "1.0.0";
+    var CACHE_BUILD = "0aca91b343b8b942";
+    var CACHE_HASH = "0aca91b3";
+    
+    function setState(t, c) { 
+        stateEl.textContent = t; 
+        stateEl.className = c || ""; 
+    }
+    
+    function setCache(t, ok, extra) {
+        cacheStatus.textContent = t;
+        cacheEl.className = ok ? "cacheok" : (extra === "loading" ? "cacheloading" : "cacheerror");
+        cacheVersion.textContent = "📦 v" + CACHE_VERSION;
+        cacheHash.textContent = "🔑 " + CACHE_HASH;
+    }
+    
     var params = new URLSearchParams(location.search);
 
     var key = null, fwnum = null;
@@ -258,15 +324,26 @@
     detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
         + " &middot; bug <b>" + (bug || "none") + "</b> &middot; " + why;
 
-    if (!bug) { setState("UNSUPPORTED FIRMWARE", "bad"); return; }
+    if (!bug) { 
+        setState("UNSUPPORTED FIRMWARE", "bad");
+        setCache("❌ Unsupported", false);
+        return; 
+    }
 
     var target = (bug === "lapse" ? "run_lapse.html" : "run_poops.html")
         + location.search;
-    function go() { setState("loading " + bug + " chain...", "warn");
-                    location.replace(target); }
+        
+    function go() { 
+        setState("loading " + bug + " chain...", "warn");
+        setCache("🚀 Loading exploit...", true);
+        setTimeout(function() {
+            location.replace(target);
+        }, 500);
+    }
 
     function waitForTap(msg, action) {
         setState(msg, "warn");
+        setCache("👆 " + msg, true);
         function fire() {
             window.removeEventListener("click", fire);
             window.removeEventListener("keydown", fire);
@@ -276,50 +353,84 @@
         window.addEventListener("keydown", fire);
     }
 
+    // ===== نظام الكاش مع عرض الحالة =====
     var ac = window.applicationCache;
-    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+    
+    if (!ac || location.protocol === 'file:') {
+        setCache("⚠️ Cache not available (local file)", false);
         go();
-    } else if (!navigator.onLine) {
-        setCache("offline -- from cache", true);
+        return;
+    }
+
+    if (!document.documentElement.hasAttribute("manifest")) {
+        setCache("⚠️ No manifest found", false);
+        go();
+        return;
+    }
+
+    var statusTexts = ['UNCACHED', 'IDLE', 'CHECKING', 'DOWNLOADING', 'UPDATEREADY', 'OBSOLETE'];
+    
+    function updateCacheStatus() {
+        var status = ac.status;
+        var statusText = statusTexts[status] || 'UNKNOWN';
+        var isOk = (status === ac.IDLE || status === ac.UPDATEREADY);
+        var icon = isOk ? '✅' : (status === ac.DOWNLOADING || status === ac.CHECKING ? '⏳' : '⚠️');
+        setCache(icon + ' ' + statusText + ' | build ' + CACHE_BUILD, isOk, status === ac.DOWNLOADING || status === ac.CHECKING ? 'loading' : '');
+    }
+
+    if (!navigator.onLine) {
+        setCache("📦 Offline -- from cache v" + CACHE_VERSION, true);
         go();
     } else if (ac.status === ac.IDLE) {
-        setCache("cached", true);
+        updateCacheStatus();
         go();
     } else if (ac.status === ac.UPDATEREADY) {
         try { ac.swapCache(); } catch (e) {}
-        setCache("update downloaded", true);
+        updateCacheStatus();
         waitForTap("UPDATE READY -- press X or tap to reload & run",
                    function () { location.reload(); });
     } else {
-        setCache("checking cache...");
-        ac.addEventListener("downloading",
-            function () { setCache("caching for offline (first run)..."); }, false);
+        setCache("⏳ Checking cache... build " + CACHE_BUILD, false, "loading");
+        
+        ac.addEventListener("checking", function () {
+            setCache("🔍 Checking for updates... build " + CACHE_BUILD, false, "loading");
+        }, false);
+        
+        ac.addEventListener("downloading", function () {
+            setCache("📥 Caching for offline use... build " + CACHE_BUILD, false, "loading");
+        }, false);
+        
         ac.addEventListener("progress", function (e) {
-            if (e && e.total)
-                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+            if (e && e.total) {
+                var pct = Math.round((e.loaded / e.total) * 100);
+                setCache("📥 Caching " + pct + "% build " + CACHE_BUILD, false, "loading");
+            }
         }, false);
 
         ac.addEventListener("cached", function () {
-            setCache("cached for offline use", true);
+            setCache("✅ Cached for offline use | build " + CACHE_BUILD, true);
             waitForTap("CACHED (first run) -- press X or tap to run", go);
         }, false);
+        
         ac.addEventListener("updateready", function () {
             try { ac.swapCache(); } catch (e) {}
-            setCache("update downloaded", true);
+            setCache("🔄 Update downloaded | build " + CACHE_BUILD, true);
             waitForTap("UPDATE READY -- press X or tap to reload & run",
                        function () { location.reload(); });
         }, false);
 
         ac.addEventListener("noupdate", function () {
-            setCache("cached -- offline ready", true);
+            setCache("✅ Cached -- offline ready | build " + CACHE_BUILD, true);
             go();
         }, false);
+        
         ac.addEventListener("error", function () {
-            setCache("cache unavailable");
+            setCache("❌ Cache error | build " + CACHE_BUILD, false);
             waitForTap("CACHE FAILED -- press X or tap to run anyway", go);
         }, false);
+        
         ac.addEventListener("obsolete", function () {
-            setCache("cache obsolete");
+            setCache("⚠️ Cache obsolete | build " + CACHE_BUILD, false);
             waitForTap("CACHE OBSOLETE -- press X or tap to run", go);
         }, false);
     }
