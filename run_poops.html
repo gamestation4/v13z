@@ -5,202 +5,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ps4 poops</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Tajawal:wght@400;700&display=swap');
-  
-  * { margin:0; padding:0; box-sizing:border-box; }
-  
-  html {
-    background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 50%, #0d1326 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
-    color: white;
-    text-align: center;
-    font-family: 'Tajawal', sans-serif;
-  }
-  
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-  
-  .container {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 30px;
-    padding: 40px 50px;
-    max-width: 700px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 100, 255, 0.05);
-    transition: all 0.3s ease;
-  }
-  
-  .container:hover {
-    border-color: rgba(100, 150, 255, 0.3);
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 60px rgba(0, 100, 255, 0.1);
-  }
-  
-  .brand {
-    text-align: center;
-    padding: 8px 10px;
-    margin-bottom: 10px;
-  }
-  
-  .brand img {
-    width: 28px;
-    height: 28px;
-    margin-right: 8px;
-    border-radius: 50%;
-    vertical-align: middle;
-  }
-  
-  .brand b {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: .14em;
-    color: #e6ebf2;
-    vertical-align: middle;
-  }
-  
-  .brand .highlight {
-    background: linear-gradient(135deg, #ff6b35, #ff2e63);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .brand .ps4-text {
-    background: linear-gradient(135deg, #0066ff, #00ccff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .separator {
-    border: none;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    margin: 20px 0;
-  }
-  
-  #wrap {
-    padding: 16px 0;
-  }
-  
-  #state {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 10px;
-    color: #c8ced8;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
-  }
-  
-  #out {
-    white-space: pre-wrap;
-    font-family: 'Orbitron', monospace;
-    font-size: 12px;
-    line-height: 1.6;
-    background: rgba(17, 21, 27, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 15px;
-    height: calc(100vh - 300px);
-    min-height: 200px;
-    overflow-y: auto;
-    color: #8899bb;
-    text-align: left;
-    direction: ltr;
-  }
-  
-  #out::-webkit-scrollbar {
-    width: 5px;
-  }
-  
-  #out::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 10px;
-  }
-  
-  #out::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-  }
-  
-  .ok { color:#7fd0a0; }
-  .bad { color:#d08a7f; }
-  .warn { color:#d8c07f; }
-  
-  .credit {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 13px;
-    color: #556688;
-    letter-spacing: 2px;
-    margin-top: 20px;
-  }
-  
-  .credit-link {
-    background: linear-gradient(135deg, #ff6b35, #ff2e63);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-    text-decoration: none;
-  }
-  
-  .credit-link:hover {
-    text-shadow: 0 0 30px rgba(255, 46, 99, 0.4);
-  }
-  
-  .thanks {
-    font-size: 12px;
-    color: #445566;
-    margin-top: 8px;
-    letter-spacing: 1px;
-  }
-  
-  @media (max-width: 600px) {
-    .container { padding: 25px 20px; border-radius: 20px; }
-    #state { font-size: 18px; }
-    #out { font-size: 10px; height: calc(100vh - 270px); min-height: 150px; }
-  }
-  
-  @media (max-width: 400px) {
-    .container { padding: 20px 15px; }
-    #state { font-size: 16px; }
-  }
+  html, body { margin:0; padding:0; background:#0b0d10; color:#c8ced8;
+               font:15px/1.45 "Segoe UI", system-ui, sans-serif; }
+  #wrap { padding:16px 18px; }
+  #state { font-size:22px; font-weight:700; margin:0 0 10px; }
+  #out { white-space:pre-wrap; font:12px/1.45 Consolas, monospace;
+         background:#11151b; border:1px solid #1e2732; border-radius:5px;
+         padding:10px 12px; height:calc(100vh - 141px); overflow-y:auto; }
+  .ok { color:#7fd0a0; } .bad { color:#d08a7f; } .warn { color:#d8c07f; }
+  #brand { text-align:center; padding:8px 10px; background:#0e1116;
+           border-bottom:1px solid #1e2732; }
+  #brand img { width:28px; height:28px; margin-right:8px; border-radius:50%;
+               vertical-align:middle; }
+  #brand b { font-size:15px; font-weight:700; letter-spacing:.14em;
+             color:#e6ebf2; vertical-align:middle; }
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="brand">
-    <img src="logo_raw.png" alt="" width="28" height="28">
-    <b>
-      <span class="highlight">Mustafa</span>
-      <span class="ps4-text">PS4</span>
-    </b>
-  </div>
-  
-  <hr class="separator">
-  
-  <div id="wrap">
-    <div id="state">loading poops chain...</div>
-    <div id="out"></div>
-  </div>
-  
-  <hr class="separator">
-  
-  <div class="credit">
-    Designed by <a href="#" class="credit-link">Mustafa</a>
-    <div class="thanks">❤️ Special thanks to all scene developers</div>
-  </div>
+<div id="brand"><img src="logo_raw.png" alt="" width="28" height="28"><b>RAW GAME</b></div>
+<div id="wrap">
+  <div id="state">loading poops chain...</div>
+  <div id="out"></div>
 </div>
-
-<!-- نفس السكربت الأصلي -->
 <script type="module">import "./chain_poops.js";</script>
 </body>
 </html>

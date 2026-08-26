@@ -1,327 +1,410 @@
 <!DOCTYPE html>
 <html lang="en" manifest="cache.appcache">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ps4 jailbreak</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Tajawal:wght@400;700&display=swap');
-  
-  * { margin:0; padding:0; box-sizing:border-box; }
-  
-  html {
-    background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 50%, #0d1326 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
-    color: white;
-    text-align: center;
-    font-family: 'Tajawal', sans-serif;
-  }
-  
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-  
-  .container {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 30px;
-    padding: 40px 50px;
-    max-width: 700px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 100, 255, 0.05);
-    transition: all 0.3s ease;
-  }
-  
-  .container:hover {
-    border-color: rgba(100, 150, 255, 0.3);
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 60px rgba(0, 100, 255, 0.1);
-  }
-  
-  .brand {
-    text-align: center;
-    padding: 8px 10px;
-    margin-bottom: 10px;
-  }
-  
-  .brand img {
-    width: 28px;
-    height: 28px;
-    margin-right: 8px;
-    border-radius: 50%;
-    vertical-align: middle;
-  }
-  
-  .brand b {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: .14em;
-    color: #e6ebf2;
-    vertical-align: middle;
-  }
-  
-  .brand .highlight {
-    background: linear-gradient(135deg, #ff6b35, #ff2e63);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 40px rgba(255, 46, 99, 0.3);
-  }
-  
-  .brand .ps4-text {
-    background: linear-gradient(135deg, #0066ff, #00ccff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .brand .ps5-text {
-    background: linear-gradient(135deg, #ff0066, #ff33cc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .separator {
-    border: none;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    margin: 20px 0;
-  }
-  
-  #wrap {
-    padding: 16px 0;
-  }
-  
-  #state {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 6px;
-    color: #c8ced8;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-  }
-  
-  #state.warn { color: #d8c07f; animation: pulse 1.5s ease-in-out infinite; }
-  #state.bad { color: #d08a7f; }
-  #state.ok { color: #7fd0a0; }
-  
-  #det {
-    font-size: 13px;
-    color: #8b95a3;
-    margin: 0 0 4px;
-    font-family: 'Tajawal', sans-serif;
-  }
-  
-  #det b {
-    color: #c8ced8;
-    font-weight: 600;
-  }
-  
-  #cache {
-    font-size: 12px;
-    color: #5c6672;
-    margin: 10px 0 0;
-    min-height: 14px;
-    font-family: 'Orbitron', monospace;
-    letter-spacing: 0.5px;
-    padding: 8px 12px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.03);
-    transition: all 0.3s ease;
-  }
-  
-  #cache.cacheok {
-    color: #7fd0a0;
-    border-color: rgba(127,208,160,0.15);
-    background: rgba(127,208,160,0.05);
-  }
-  
-  .ok { color:#7fd0a0; }
-  .bad { color:#d08a7f; }
-  .warn { color:#d8c07f; }
-  
-  .credit {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 13px;
-    color: #556688;
-    letter-spacing: 2px;
-    margin-top: 20px;
-  }
-  
-  .credit-link {
-    background: linear-gradient(135deg, #ff6b35, #ff2e63);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  
-  .credit-link:hover {
-    text-shadow: 0 0 30px rgba(255, 46, 99, 0.4);
-  }
-  
-  .thanks {
-    font-size: 12px;
-    color: #445566;
-    margin-top: 8px;
-    letter-spacing: 1px;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-  
-  @media (max-width: 600px) {
-    .container { padding: 25px 20px; border-radius: 20px; }
-    #state { font-size: 18px; }
-  }
-  
-  @media (max-width: 400px) {
-    .container { padding: 20px 15px; }
-    #state { font-size: 16px; }
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mustafa PS4/PS5 | RAW</title>
+  <style>
+    /* === RESET & BASE - FULL BLACK === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      background: #000000;
+      color: #e8edf5;
+      font: 16px/1.5 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* === MAIN CONTAINER === */
+    #app {
+      max-width: 780px;
+      margin: 2rem auto;
+      padding: 0 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* === BRAND HEADER — كل حرف بلون مختلف === */
+    #brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 60px;
+      padding: 16px 28px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(2px);
+    }
+
+    #brand img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.06);
+      object-fit: cover;
+      background: #0a0a0a;
+    }
+
+    .rainbow-name {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.02);
+    }
+
+    /* كل حرف بلون مختلف - Mustafa بدون فراغات */
+    .rainbow-name .c0 { color: #ff6b6b; }  /* M */
+    .rainbow-name .c1 { color: #ff9f43; }  /* u */
+    .rainbow-name .c2 { color: #feca57; }  /* s */
+    .rainbow-name .c3 { color: #48dbfb; }  /* t */
+    .rainbow-name .c4 { color: #1dd1a1; }  /* a */
+    .rainbow-name .c5 { color: #54a0ff; }  /* f */
+    .rainbow-name .c6 { color: #5f27cd; }  /* a */
+
+    /* PS4 PS5 بألوان مختلفة */
+    .rainbow-name .c7 { color: #ff6b6b; }  /* p */
+    .rainbow-name .c8 { color: #ff9f43; }  /* s */
+    .rainbow-name .c9 { color: #feca57; }  /* 4 */
+    .rainbow-name .c10 { color: #48dbfb; } /* p */
+    .rainbow-name .c11 { color: #1dd1a1; } /* s */
+    .rainbow-name .c12 { color: #54a0ff; } /* 5 */
+
+    .rainbow-name .space {
+      color: #333;
+      letter-spacing: 0.3em;
+    }
+
+    .brand-sub {
+      font-size: 10px;
+      font-weight: 500;
+      color: #555;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-top: 2px;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      padding-top: 4px;
+    }
+    .brand-sub span {
+      color: #888;
+    }
+
+    /* === MAIN CARD - شفاف على أسود === */
+    .card {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 28px;
+      padding: 28px 30px;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    }
+
+    /* === STATE === */
+    #state {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    #state .badge {
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 14px;
+      border-radius: 40px;
+      color: #9aa5b5;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      letter-spacing: 0.4px;
+    }
+
+    /* === DET === */
+    #det {
+      font-size: 14px;
+      color: #8892a0;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 40px;
+      padding: 8px 18px;
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      margin: 6px 0 2px;
+    }
+    #det b {
+      color: #d0d8e2;
+      font-weight: 600;
+    }
+
+    /* === CACHE === */
+    #cache {
+      font-size: 13px;
+      color: #4a5568;
+      padding: 8px 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 40px;
+      margin-top: 12px;
+      border-left: 3px solid transparent;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    #cache.cacheok {
+      color: #7fd0a0;
+      border-left-color: #7fd0a0;
+      background: rgba(127, 208, 160, 0.04);
+    }
+
+    /* === STATUS COLORS === */
+    .ok { color: #7fd0a0; }
+    .bad { color: #d08a7f; }
+    .warn { color: #f0d78c; }
+
+    /* === HINT === */
+    .hint {
+      margin-top: 8px;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 24px;
+      text-align: center;
+      font-size: 14px;
+      color: #6b7a8a;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(2px);
+    }
+    .hint strong {
+      color: #c8d0dc;
+      font-weight: 500;
+    }
+
+    /* === FOOTER === */
+    #footer {
+      text-align: center;
+      font-size: 11px;
+      color: #2a2f38;
+      padding: 20px 0 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.02);
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+    #footer span {
+      color: #444;
+      font-weight: 500;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 480px) {
+      #app { margin: 1rem auto; padding: 0 14px; gap: 16px; }
+      .card { padding: 20px 16px; border-radius: 24px; }
+      #state { font-size: 20px; }
+      #brand { padding: 12px 16px; gap: 10px; border-radius: 40px; flex-wrap: wrap; }
+      #brand img { width: 36px; height: 36px; }
+      .rainbow-name { font-size: 18px; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="brand">
-    <img src="logo_raw.png" alt="" width="28" height="28">
-    <b>
-      <span class="highlight">Mustafa</span>
-      <span class="ps4-text">PS4</span>
-      <span class="ps5-text">PS5</span>
-    </b>
+
+  <div id="app">
+    <!-- BRAND — كل حرف بلون مختلف، Mustafa بدون فراغات -->
+    <div id="brand">
+      <img src="logo_raw.png" alt="RAW" width="44" height="44">
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <div class="rainbow-name">
+          <!-- Mustafa بدون فراغات -->
+          <span class="c0">M</span>
+          <span class="c1">u</span>
+          <span class="c2">s</span>
+          <span class="c3">t</span>
+          <span class="c4">a</span>
+          <span class="c5">f</span>
+          <span class="c6">a</span>
+          <!-- فراغ بسيط -->
+          <span class="space"> </span>
+          <!-- PS4 -->
+          <span class="c7">p</span>
+          <span class="c8">s</span>
+          <span class="c9">4</span>
+          <!-- فراغ بسيط -->
+          <span class="space"> </span>
+          <!-- PS5 -->
+          <span class="c10">p</span>
+          <span class="c11">s</span>
+          <span class="c12">5</span>
+        </div>
+        <div class="brand-sub"><span>✦</span> RAW GAME · exploit loader <span>✦</span></div>
+      </div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="card">
+      <div id="state">detecting firmware...</div>
+      <div id="det"></div>
+      <div id="cache"></div>
+    </div>
+
+    <!-- HINT -->
+    <div id="interactive-hint" class="hint">
+      ⚡ <strong>ready</strong> · tap or press any key to continue
+    </div>
+
+    <div id="footer">
+      <span>⏺</span> Mustafa PS4/PS5 · black edition <span>⏺</span>
+    </div>
   </div>
-  
-  <hr class="separator">
-  
-  <div id="wrap">
-    <div id="state">detecting firmware...</div>
-    <div id="det"></div>
-    <div id="cache"></div>
-  </div>
-  
-  <hr class="separator">
-  
-  <div class="credit">
-    Designed by <a href="#" class="credit-link">Mustafa</a>
-    <div class="thanks">❤️ Special thanks to all scene developers</div>
-  </div>
-</div>
 
-<!-- نفس السكربت الأصلي بالضبط بدون تغيير -->
-<script>
-(function () {
-    var stateEl = document.getElementById("state");
-    var detEl = document.getElementById("det");
-    var cacheEl = document.getElementById("cache");
-    function setState(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
-    function setCache(t, ok) { cacheEl.textContent = t; cacheEl.className = ok ? "cacheok" : ""; }
-    var params = new URLSearchParams(location.search);
+  <script>
+    (function() {
+      const stateEl = document.getElementById('state');
+      const detEl = document.getElementById('det');
+      const cacheEl = document.getElementById('cache');
+      const hintEl = document.getElementById('interactive-hint');
 
-    var key = null, fwnum = null;
-    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
-    if (m) {
-        var minor = parseInt(m[2], 16);
-        var ms = minor.toString(16);
-        if (ms.length < 2) ms = "0" + ms;
-        key = m[1] + "." + ms;
-        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
-    }
-    var bug = null, why = "";
-    var forced = params.get("bug");
-    if (forced === "lapse" || forced === "poops") {
-        bug = forced; why = "forced via ?bug=" + forced;
-    } else if (!key) {
-        why = "user-agent is not a PlayStation 4";
-    } else if (fwnum <= 1202) {
-        bug = "lapse"; why = key + " <= 12.02";
-    } else if (fwnum >= 1250) {
-        bug = "poops"; why = key + " >= 12.50";
-    } else {
-        why = key + " -- no working bug (lapse ends at 12.02, poops needs 12.50)";
-    }
-    detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
-        + " &middot; bug <b>" + (bug || "none") + "</b> &middot; " + why;
-
-    if (!bug) { setState("UNSUPPORTED FIRMWARE", "bad"); return; }
-
-    var target = (bug === "lapse" ? "run_lapse.html" : "run_poops.html")
-        + location.search;
-    function go() { setState("loading " + bug + " chain...", "warn");
-                    location.replace(target); }
-
-    function waitForTap(msg, action) {
-        setState(msg, "warn");
-        function fire() {
-            window.removeEventListener("click", fire);
-            window.removeEventListener("keydown", fire);
-            action();
+      function setState(text, className) {
+        stateEl.textContent = text;
+        stateEl.className = className || '';
+        const badge = stateEl.querySelector('.badge');
+        if (badge) badge.remove();
+        if (className) {
+          const span = document.createElement('span');
+          span.className = 'badge';
+          span.textContent = className.toUpperCase();
+          stateEl.appendChild(span);
         }
-        window.addEventListener("click", fire);
-        window.addEventListener("keydown", fire);
-    }
+      }
 
-    var ac = window.applicationCache;
-    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+      function setCache(text, ok) {
+        cacheEl.textContent = text;
+        cacheEl.className = ok ? 'cacheok' : '';
+      }
+
+      function setHint(text, isAction) {
+        hintEl.innerHTML = text;
+        hintEl.style.borderColor = isAction ? 'rgba(255,215,100,0.08)' : 'rgba(255,255,255,0.03)';
+      }
+
+      // --- firmware detection ---
+      let key = null, fwnum = null;
+      const ua = navigator.userAgent;
+      const m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(ua);
+      if (m) {
+        const minor = parseInt(m[2], 16);
+        const ms = minor.toString(16).padStart(2, '0');
+        key = m[1] + '.' + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+      }
+
+      const params = new URLSearchParams(location.search);
+      let bug = null, why = '';
+      const forced = params.get('bug');
+      if (forced === 'lapse' || forced === 'poops') {
+        bug = forced;
+        why = 'forced via ?bug=' + forced;
+      } else if (!key) {
+        why = 'user-agent is not a PlayStation 4';
+      } else if (fwnum <= 1202) {
+        bug = 'lapse';
+        why = key + ' ≤ 12.02';
+      } else if (fwnum >= 1250) {
+        bug = 'poops';
+        why = key + ' ≥ 12.50';
+      } else {
+        why = key + ' — no working bug (lapse ends at 12.02, poops needs 12.50)';
+      }
+
+      detEl.innerHTML = 'firmware <b>' + (key || 'unknown') +
+        '</b> · bug <b>' + (bug || 'none') + '</b> · ' + why;
+
+      if (!bug) {
+        setState('UNSUPPORTED FIRMWARE', 'bad');
+        setHint('⚠️ <strong>not supported</strong> · check your firmware version');
+        return;
+      }
+
+      const target = (bug === 'lapse' ? 'run_lapse.html' : 'run_poops.html') + location.search;
+
+      function go() {
+        setState('loading ' + bug + ' chain…', 'warn');
+        setHint('⏳ redirecting to ' + bug.toUpperCase() + ' …');
+        location.replace(target);
+      }
+
+      function waitForTap(msg, action) {
+        setState(msg, 'warn');
+        setHint('🟡 <strong>tap</strong> or press any key to proceed', true);
+        const fire = function(e) {
+          window.removeEventListener('click', fire);
+          window.removeEventListener('keydown', fire);
+          action();
+        };
+        window.addEventListener('click', fire);
+        window.addEventListener('keydown', fire);
+      }
+
+      // --- AppCache ---
+      const ac = window.applicationCache;
+      if (!ac || !document.documentElement.hasAttribute('manifest')) {
         go();
-    } else if (!navigator.onLine) {
-        setCache("offline -- from cache", true);
+      } else if (!navigator.onLine) {
+        setCache('offline — from cache', true);
         go();
-    } else if (ac.status === ac.IDLE) {
-        setCache("cached", true);
+      } else if (ac.status === ac.IDLE) {
+        setCache('cached · ready', true);
         go();
-    } else if (ac.status === ac.UPDATEREADY) {
-        try { ac.swapCache(); } catch (e) {}
-        setCache("update downloaded", true);
-        waitForTap("UPDATE READY -- press X or tap to reload & run",
-                   function () { location.reload(); });
-    } else {
-        setCache("checking cache...");
-        ac.addEventListener("downloading",
-            function () { setCache("caching for offline (first run)..."); }, false);
-        ac.addEventListener("progress", function (e) {
-            if (e && e.total)
-                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+      } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (_) {}
+        setCache('update downloaded', true);
+        waitForTap('UPDATE READY — reload to run', function() { location.reload(); });
+      } else {
+        setCache('checking cache…');
+        ac.addEventListener('downloading', function() {
+          setCache('caching for offline (first run)…');
+        }, false);
+        ac.addEventListener('progress', function(e) {
+          if (e && e.total) {
+            const pct = Math.round((e.loaded / e.total) * 100);
+            setCache('caching ' + pct + '%');
+          }
         }, false);
 
-        ac.addEventListener("cached", function () {
-            setCache("cached for offline use", true);
-            waitForTap("CACHED (first run) -- press X or tap to run", go);
+        ac.addEventListener('cached', function() {
+          setCache('cached for offline use', true);
+          waitForTap('CACHED (first run) — tap to run', go);
         }, false);
-        ac.addEventListener("updateready", function () {
-            try { ac.swapCache(); } catch (e) {}
-            setCache("update downloaded", true);
-            waitForTap("UPDATE READY -- press X or tap to reload & run",
-                       function () { location.reload(); });
+        ac.addEventListener('updateready', function() {
+          try { ac.swapCache(); } catch (_) {}
+          setCache('update downloaded', true);
+          waitForTap('UPDATE READY — reload & run', function() { location.reload(); });
         }, false);
+        ac.addEventListener('noupdate', function() {
+          setCache('cached · offline ready', true);
+          go();
+        }, false);
+        ac.addEventListener('error', function() {
+          setCache('cache unavailable');
+          waitForTap('CACHE FAILED — run anyway', go);
+        }, false);
+        ac.addEventListener('obsolete', function() {
+          setCache('cache obsolete');
+          waitForTap('CACHE OBSOLETE — run', go);
+        }, false);
+      }
+    })();
+  </script>
 
-        ac.addEventListener("noupdate", function () {
-            setCache("cached -- offline ready", true);
-            go();
-        }, false);
-        ac.addEventListener("error", function () {
-            setCache("cache unavailable");
-            waitForTap("CACHE FAILED -- press X or tap to run anyway", go);
-        }, false);
-        ac.addEventListener("obsolete", function () {
-            setCache("cache obsolete");
-            waitForTap("CACHE OBSOLETE -- press X or tap to run", go);
-        }, false);
-    }
-})();
-</script>
 </body>
 </html>
